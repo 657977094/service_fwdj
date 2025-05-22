@@ -8,6 +8,11 @@ class TestGetAPI(unittest.TestCase):
     base_url = EnvConfig.get_base_url()
     BASE_URL = f"{base_url}/webservice/orderTrajectoryQuery"
     # BASE_URL = "http://120.52.40.45:48080/webservice/orderTrajectoryQuery"   #接口地址
+    # 准备请求头，指定内容类型为JSON
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
     def test_orderTrajectoryQuery(self):
 
         # 准备请求数据
@@ -21,11 +26,6 @@ class TestGetAPI(unittest.TestCase):
             "requestTime": "2025-03-31"  # 请求时间，格式2025-05-15
         }
 
-        # 准备请求头，指定内容类型为JSON
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
 
         try:
             # 发送POST请求
@@ -33,7 +33,7 @@ class TestGetAPI(unittest.TestCase):
             response = requests.post(
                 url=self.BASE_URL,
                 json=request_data,
-                headers=headers
+                headers=self.headers
             )
 
             # 断言响应状态码是200(Created)
@@ -73,19 +73,13 @@ class TestGetAPI(unittest.TestCase):
             "requestTime": "2025-03-31"  # 请求时间，格式2025-05-15
         }
 
-        # 准备请求头，指定内容类型为JSON
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
-
         try:
             # 发送POST请求
             # 使用json参数自动序列化数据并设置Content-Type头
             response = requests.post(
                 url=self.BASE_URL,
                 json=request_data,
-                headers=headers
+                headers=self.headers
             )
 
             # 断言响应状态码是200(Created)
@@ -119,19 +113,13 @@ class TestGetAPI(unittest.TestCase):
             "requestTime": "2025-03-31"  # 请求时间，格式2025-05-15
         }
 
-        # 准备请求头，指定内容类型为JSON
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
-
         try:
             # 发送POST请求
             # 使用json参数自动序列化数据并设置Content-Type头
             response = requests.post(
                 url=self.BASE_URL,
                 json=request_data,
-                headers=headers
+                headers=self.headers
             )
 
             # 断言响应状态码是200(Created)
@@ -165,19 +153,13 @@ class TestGetAPI(unittest.TestCase):
             "requestTime": "2025-03-31"  # 请求时间，格式2025-05-15
         }
 
-        # 准备请求头，指定内容类型为JSON
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
-
         try:
             # 发送POST请求
             # 使用json参数自动序列化数据并设置Content-Type头
             response = requests.post(
                 url=self.BASE_URL,
                 json=request_data,
-                headers=headers
+                headers=self.headers
             )
 
             # 断言响应状态码是200(Created)
@@ -211,19 +193,13 @@ class TestGetAPI(unittest.TestCase):
             "requestTime": "2025-03-31"  # 请求时间，格式2025-05-15
         }
 
-        # 准备请求头，指定内容类型为JSON
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
-
         try:
             # 发送POST请求
             # 使用json参数自动序列化数据并设置Content-Type头
             response = requests.post(
                 url=self.BASE_URL,
                 json=request_data,
-                headers=headers
+                headers=self.headers
             )
 
             # 断言响应状态码是200(Created)
@@ -258,19 +234,13 @@ class TestGetAPI(unittest.TestCase):
             "requestTime": "2025-03-31"  # 请求时间，格式2025-05-15
         }
 
-        # 准备请求头，指定内容类型为JSON
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
-
         try:
             # 发送POST请求
             # 使用json参数自动序列化数据并设置Content-Type头
             response = requests.post(
                 url=self.BASE_URL,
                 json=request_data,
-                headers=headers
+                headers=self.headers
             )
 
             # 断言响应状态码是200(Created)

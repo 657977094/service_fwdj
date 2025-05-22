@@ -9,6 +9,10 @@ class TestGetFtpLogGrid(unittest.TestCase):
     base_url = EnvConfig.get_base_url()
     BASE_URL = f"{base_url}/qryFtpLogController/getFtpLogGrid"
     # BASE_URL = "http://120.52.40.45:48080/qryFtpLogController/getFtpLogGrid"   #接口地址
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
     def test_getFtpLogGrid(self):
         # 准备请求数据
         request_data = {
@@ -29,11 +33,16 @@ class TestGetFtpLogGrid(unittest.TestCase):
         }
 
         try:
-            # 发送POST请求
-            # 使用json参数自动序列化数据并设置Content-Type头
+            # # 发送POST请求,老代码为表单
+            # response = requests.post(
+            #     url=self.BASE_URL,
+            #     data=request_data
+            # )
+            #新代码为json
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
@@ -79,7 +88,8 @@ class TestGetFtpLogGrid(unittest.TestCase):
             # 发送POST请求
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
@@ -132,7 +142,8 @@ class TestGetFtpLogGrid(unittest.TestCase):
             # 发送POST请求
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
@@ -187,7 +198,8 @@ class TestGetFtpLogGrid(unittest.TestCase):
             # 发送POST请求
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
@@ -231,7 +243,8 @@ class TestGetFtpLogGrid(unittest.TestCase):
             # 发送POST请求
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试

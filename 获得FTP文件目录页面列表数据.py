@@ -9,7 +9,16 @@ class TestGetFtpDirGrid(unittest.TestCase):
     base_url = EnvConfig.get_base_url()
     BASE_URL = f"{base_url}/qryFtpLogController/getFtpDirGrid"
     # BASE_URL = "http://120.52.40.45:48080/qryFtpLogController/getFtpDirGrid"   #接口地址
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
     def test_getFtpDirGrid(self):
+        """
+        老代码为post表单格式上传，新代码为postjson格式上传
+        老代码参数为provinceId和cityId，新代码变更为provinceCode和cityCode
+        :return:
+        """
         # 准备请求数据
         request_data = {
             # "provinceId": 520000,   #老代码字段
@@ -28,10 +37,16 @@ class TestGetFtpDirGrid(unittest.TestCase):
         }
 
         try:
-            # 发送POST请求
+            # # 发送POST请求,老代码为表单
+            # response = requests.post(
+            #     url=self.BASE_URL,
+            #     data=request_data
+            # )
+            #新代码为json
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
@@ -68,10 +83,12 @@ class TestGetFtpDirGrid(unittest.TestCase):
         }
 
         try:
-            # 发送POST请求
+            # # 发送POST请求
+            #新代码为json
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
@@ -115,12 +132,13 @@ class TestGetFtpDirGrid(unittest.TestCase):
         }
 
         try:
-            # 发送POST请求
+            # # 发送POST请求
+            #新代码为json
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
-
             # 断言测试
             self.assertEqual(response.status_code, 200,
                              f"响应状态码不是200，实际是{response.status_code}")   #响应码校验
@@ -164,10 +182,12 @@ class TestGetFtpDirGrid(unittest.TestCase):
         }
 
         try:
-            # 发送POST请求
+            # # 发送POST请求
+            #新代码为json
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
@@ -207,10 +227,12 @@ class TestGetFtpDirGrid(unittest.TestCase):
         }
 
         try:
-            # 发送POST请求
+            # # 发送POST请求
+            #新代码为json
             response = requests.post(
                 url=self.BASE_URL,
-                data=request_data
+                json=request_data,
+                headers=self.headers
             )
 
             # 断言测试
