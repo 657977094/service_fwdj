@@ -3,7 +3,7 @@ import unittest
 import json
 from .env_config import EnvConfig  # 导入环境配置
 
-class TestGetAPI(unittest.TestCase):
+class TestGetOrderTrajectoryQuery(unittest.TestCase):
 
     base_url = EnvConfig.get_base_url()
     BASE_URL = f"{base_url}/webservice/orderTrajectoryQuery"
