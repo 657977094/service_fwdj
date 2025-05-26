@@ -16,7 +16,7 @@ class TestQryFlowLog(unittest.TestCase):
             )
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
-            self.fail(f"Request failed: {e}")
+            self.fail(f"请求失败，错误信息: {e}")
 
 
         return response
@@ -56,7 +56,7 @@ class TestQryFlowLog(unittest.TestCase):
         # 需求单号为唯一时，可以精确断言返回内容
 
 
-    def postQryFlowLog_empty_pram(self,data,pramname,type):
+    def postQryFlowLog_empty_pram(self,data,pramname,param_type):
         """
         必填参数为空通用查询
         :return:
@@ -78,18 +78,18 @@ class TestQryFlowLog(unittest.TestCase):
             self.fail("Response 格式不是json")
 
 
-        if type == 'empty':
+        if param_type == 'empty':
             # 断言错误信息
             self.assertEqual(response_data['msg'], f'{pramname}不能为空',
                                  f"预期返回信息为： {pramname}不能为空, 实际为： {response_data['msg']}")
 
 
-        elif type == 'error':
+        elif param_type == 'error':
             # 断言错误信息
             self.assertEqual(response_data['msg'], f'{pramname}格式不正确',
                              f"预期返回信息为： {pramname}格式不正确, 实际为： {response_data['msg']}")
         else:
-            self.fail(f"未定义的传入参数{type}")
+            self.fail(f"未定义的传入参数{param_type}")
 
 
 
