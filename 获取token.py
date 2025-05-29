@@ -1,7 +1,7 @@
 import requests
 import unittest
 import json
-from .env_config import EnvConfig  # 导入环境配置
+from env_config import EnvConfig  # 导入环境配置
 import time
 
 class TestGetSelects(unittest.TestCase):

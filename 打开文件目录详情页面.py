@@ -3,7 +3,7 @@ import base64
 from xml.etree import ElementTree as ET
 import unittest
 import json
-from .env_config import EnvConfig  # 导入环境配置
+from env_config import EnvConfig  # 导入环境配置
 
 class TestGetFtpDirDetailPage(unittest.TestCase):
 
