@@ -9,10 +9,10 @@ from env_config import SoapResponseHandle  # 导入环境配置
 from xml.etree import ElementTree as ET
 
 
-class TowerTerminationConfirmOT(unittest.TestCase):
+class OperateHistoryQryOT(unittest.TestCase):
     base_url = EnvConfig.get_base_url()
-    BASE_URL = f"{base_url}/services/TowerTerminationConfirmOT"
-    WSDL_URL = f"{base_url}/services/TowerTerminationConfirmOT?wsdl"  # WSDL地址
+    BASE_URL = f"{base_url}/services/OperateHistoryQryOT"
+    WSDL_URL = f"{base_url}/services/OperateHistoryQryOT?wsdl"  # WSDL地址
     headers = {
         'Content-Type': 'text/xml; charset=utf-8',
         'SOAPAction': ''    # 替换为实际的SOAPAction
@@ -22,7 +22,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         super().__init__(methodName)
         # 实例级别的参数，可以在所有方法中使用
         self.CUST_COMPANY = "1002"  # 客户公司代码
-        self.SERVICE_CODE = "T09_OT_012"  # 服务代码
+        self.SERVICE_CODE = "T07_OT_001"  # 服务代码
 
     def generate_request_xml(self,cust_company,service_code,access_token,request_time):
         """生成请求XML内容"""
@@ -36,14 +36,14 @@ class TowerTerminationConfirmOT(unittest.TestCase):
             <REQUEST_TIME>{request_time}</REQUEST_TIME>
             </HEAD>
             <BODY>
+            <CUSTOMER>1002</CUSTOMER>
             <PROVINCE_CODE>110000</PROVINCE_CODE>
-            <REGION_CODE>110200</REGION_CODE>
-            <COUNTY_CODE>110201</COUNTY_CODE>
+            <CITY_CODE>110200</CITY_CODE>
             <REQUEST_ID>待确认</REQUEST_ID>
             <RESULT>1</RESULT>
-            <OPINION_INFO></OPINION_INFO>
-            <CONFIRMOR>李江元</CONFIRMOR>
-            <CONFIRM_DATE>2025-05-27 13:56:08</CONFIRM_DATE>
+            <PROCESS_TYPE></PROCESS_TYPE>
+            <PROCESS_TYPE>李江元</PROCESS_TYPE>
+            <REQUEST_TIME>2025-05-27 13:56:08</REQUEST_TIME>
             </BODY>
             </PACKET>
         """
@@ -55,14 +55,14 @@ class TowerTerminationConfirmOT(unittest.TestCase):
                           xmlns:web="http://webservice.service.sys.org/">
            <soapenv:Header/>
            <soapenv:Body>
-              <web:TowerTerminationConfirmOT>
+              <web:OperateHistoryQryOT>
                 <encReqXml>{request_xml}</encReqXml>
-              </web:TowerTerminationConfirmOT>
+              </web:OperateHistoryQryOT>
            </soapenv:Body>
         </soapenv:Envelope>
         """
 
-    def test_towerTerminationConfirmOT_LT(self):
+    def test_operateHistoryQryOT_LT(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -93,8 +93,10 @@ class TowerTerminationConfirmOT(unittest.TestCase):
 
             # 解析业务响应XML
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
+            print(f'响应：{response_packet}')
             # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
+            print(f'响应head：{response_head}')
 
             # # 1. 检查REQUEST_ID是否一致
             # request_id_request = request_body.find('REQUEST_ID').text
@@ -134,7 +136,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackToken(self):
+    def test_operateHistoryQryOT_LT_lackToken(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -160,12 +162,12 @@ class TowerTerminationConfirmOT(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            # request_body = request_root.find('BODY')
+            request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            # response_body = response_packet.find('BODY')
+            response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -193,7 +195,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackCustCompany(self):
+    def test_operateHistoryQryOT_LT_lackCustCompany(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company="",
@@ -219,13 +221,13 @@ class TowerTerminationConfirmOT(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            # request_body = request_root.find('BODY')
+            request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            # response_body = response_packet.find('BODY')
+            response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -256,7 +258,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackServiceCode(self):
+    def test_operateHistoryQryOT_LT_lackServiceCode(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -282,13 +284,13 @@ class TowerTerminationConfirmOT(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            # request_body = request_root.find('BODY')
+            request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            # response_body = response_packet.find('BODY')
+            response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -319,7 +321,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackRequestTime(self):
+    def test_operateHistoryQryOT_LT_lackRequestTime(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -345,13 +347,13 @@ class TowerTerminationConfirmOT(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            # request_body = request_root.find('BODY')
+            request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            # response_body = response_packet.find('BODY')
+            response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -379,7 +381,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_errorToken(self):
+    def test_operateHistoryQryOT_LT_errorToken(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -405,13 +407,13 @@ class TowerTerminationConfirmOT(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            # request_body = request_root.find('BODY')
+            request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            # response_body = response_packet.find('BODY')
+            response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000001
@@ -439,7 +441,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_otherServiceCode(self):
+    def test_operateHistoryQryOT_LT_otherServiceCode(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -465,13 +467,13 @@ class TowerTerminationConfirmOT(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            # request_body = request_root.find('BODY')
+            request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            # response_body = response_packet.find('BODY')
+            response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000006

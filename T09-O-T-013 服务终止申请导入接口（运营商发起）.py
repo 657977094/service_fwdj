@@ -9,7 +9,7 @@ from env_config import SoapResponseHandle  # 导入环境配置
 from xml.etree import ElementTree as ET
 
 
-class SoapApiTest(unittest.TestCase):
+class CustomerTerminationImportOT(unittest.TestCase):
     base_url = EnvConfig.get_base_url()
     BASE_URL = f"{base_url}/services/CustomerTerminationImportOT"
     WSDL_URL = f"{base_url}/services/CustomerTerminationImportOT?wsdl"  # WSDL地址
@@ -94,14 +94,14 @@ class SoapApiTest(unittest.TestCase):
             self.assertIn("text/xml", response.headers["Content-Type"],
                           "响应Content-Type应为text/xml")
 
-            # 解析请求XML
-            request_root = ET.fromstring(request_xml)
-            request_body = request_root.find('BODY')
-            request_head = request_root.find('HEAD')
+            # # 解析请求XML
+            # request_root = ET.fromstring(request_xml)
+            # request_body = request_root.find('BODY')
+            # request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            response_body = response_packet.find('BODY')
+            # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # # 1. 检查REQUEST_ID是否一致
@@ -168,13 +168,13 @@ class SoapApiTest(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            request_body = request_root.find('BODY')
+            # request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            response_body = response_packet.find('BODY')
+            # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -228,13 +228,13 @@ class SoapApiTest(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            request_body = request_root.find('BODY')
+            # request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            response_body = response_packet.find('BODY')
+            # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -291,13 +291,13 @@ class SoapApiTest(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            request_body = request_root.find('BODY')
+            # request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            response_body = response_packet.find('BODY')
+            # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -354,13 +354,13 @@ class SoapApiTest(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            request_body = request_root.find('BODY')
+            # request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            response_body = response_packet.find('BODY')
+            # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000004
@@ -414,13 +414,13 @@ class SoapApiTest(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            request_body = request_root.find('BODY')
+            # request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            response_body = response_packet.find('BODY')
+            # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000001
@@ -474,13 +474,13 @@ class SoapApiTest(unittest.TestCase):
 
             # 解析请求XML
             request_root = ET.fromstring(request_xml)
-            request_body = request_root.find('BODY')
+            # request_body = request_root.find('BODY')
             request_head = request_root.find('HEAD')
 
             # 解析业务响应XML
             # response_packet = SoapResponseHandle.process_soap_response(response.text)
             response_packet = SoapResponseHandle.get_return_xml_value(response.text)
-            response_body = response_packet.find('BODY')
+            # response_body = response_packet.find('BODY')
             response_head = response_packet.find('HEAD')
 
             # 1. 检查RESPONSE_CODE是否为000006

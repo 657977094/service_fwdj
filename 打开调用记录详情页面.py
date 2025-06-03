@@ -8,8 +8,8 @@ from env_config import EnvConfig  # 导入环境配置
 class TestGetFtpLogDetailPage(unittest.TestCase):
 
     base_url = EnvConfig.get_base_url()
-    BASE_URL = f"{base_url}/qryFtpLogController/getFtpLogDetailPage"
-    # BASE_URL = "http://120.52.40.45:48080/qryFtpLogController/getFtpLogDetailPage"   #接口地址
+    BASE_URL = f"{base_url}/qryFtpLogController/getFtpLogDetail"
+    # BASE_URL = "http://120.52.40.45:48080/qryFtpLogController/getFtpLogDetail"   #接口地址
     def test_getFtpLogDetailPage(self):
         params = {
             "id": 3260848

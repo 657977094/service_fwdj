@@ -6,6 +6,8 @@ from enum import Enum
 import unittest
 from xml.etree import ElementTree as ET
 from lxml import etree
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
 
 # 环境配置（单独文件）
 class EnvConfig:
@@ -195,4 +197,54 @@ class GetCurrentTime():
     def get_current_time():
         """获取当前时间，格式为YYYY-MM-DD HH:MM:SS"""
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+class AesUtilLT:
+    @staticmethod
+    def aes_encrypt(content: str, key: str) -> str:
+        """
+        AES加密（兼容Java实现）
+
+        :param content: 待加密的明文
+        :param key: 密钥字符串
+        :return: Base64编码的加密字符串
+        :raises: Exception 加密失败时抛出异常
+        """
+        try:
+            # 1. 创建AES加密器（ECB模式）
+            cipher = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+
+            # 2. 对内容进行PKCS7填充并加密
+            padded_content = pad(content.encode('utf-8'), AES.block_size)
+            encrypted_data = cipher.encrypt(padded_content)
+
+            # 3. 返回Base64编码结果
+            return base64.b64encode(encrypted_data).decode('utf-8')
+        except Exception as e:
+            raise Exception(f"AES加密失败: {str(e)}")
+
+    @staticmethod
+    def aes_decrypt(content: str, key: str) -> str:
+        """
+        AES解密（兼容Java实现）
+
+        :param content: Base64编码的加密字符串
+        :param key: 密钥字符串
+        :return: 解密后的明文
+        :raises: Exception 解密失败时抛出异常
+        """
+        try:
+            # 1. Base64解码
+            encrypted_data = base64.b64decode(content)
+
+            # 2. 创建AES解密器（ECB模式）
+            cipher = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+
+            # 3. 解密并去除填充
+            decrypted_data = cipher.decrypt(encrypted_data)
+            plaintext = unpad(decrypted_data, AES.block_size).decode('utf-8')
+
+            return plaintext
+        except Exception as e:
+            raise Exception(f"AES解密失败: {str(e)}")
 

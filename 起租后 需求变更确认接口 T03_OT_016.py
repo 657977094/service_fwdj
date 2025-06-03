@@ -9,10 +9,10 @@ from env_config import SoapResponseHandle  # 导入环境配置
 from xml.etree import ElementTree as ET
 
 
-class TowerTerminationConfirmOT(unittest.TestCase):
+class DemandChangeConfirmAfterRent(unittest.TestCase):
     base_url = EnvConfig.get_base_url()
-    BASE_URL = f"{base_url}/services/TowerTerminationConfirmOT"
-    WSDL_URL = f"{base_url}/services/TowerTerminationConfirmOT?wsdl"  # WSDL地址
+    BASE_URL = f"{base_url}/services/DemandChangeConfirmAfterRent"
+    WSDL_URL = f"{base_url}/services/DemandChangeConfirmAfterRent?wsdl"  # WSDL地址
     headers = {
         'Content-Type': 'text/xml; charset=utf-8',
         'SOAPAction': ''    # 替换为实际的SOAPAction
@@ -21,8 +21,8 @@ class TowerTerminationConfirmOT(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         super().__init__(methodName)
         # 实例级别的参数，可以在所有方法中使用
-        self.CUST_COMPANY = "1002"  # 客户公司代码
-        self.SERVICE_CODE = "T09_OT_012"  # 服务代码
+        self.CUST_COMPANY = "1003"  # 客户公司代码
+        self.SERVICE_CODE = "T03_OT_016"  # 服务代码
 
     def generate_request_xml(self,cust_company,service_code,access_token,request_time):
         """生成请求XML内容"""
@@ -36,14 +36,15 @@ class TowerTerminationConfirmOT(unittest.TestCase):
             <REQUEST_TIME>{request_time}</REQUEST_TIME>
             </HEAD>
             <BODY>
+            <REQUEST_ID>1221072210207399</REQUEST_ID>
+            <APPLY_ID>T2025050900311033903</APPLY_ID>
             <PROVINCE_CODE>110000</PROVINCE_CODE>
-            <REGION_CODE>110200</REGION_CODE>
-            <COUNTY_CODE>110201</COUNTY_CODE>
-            <REQUEST_ID>待确认</REQUEST_ID>
+            <REGION_CODE>110300</REGION_CODE>
+            <COUNTY_CODE>110301</COUNTY_CODE>
             <RESULT>1</RESULT>
-            <OPINION_INFO></OPINION_INFO>
-            <CONFIRMOR>李江元</CONFIRMOR>
-            <CONFIRM_DATE>2025-05-27 13:56:08</CONFIRM_DATE>
+            <OPINION_INFO>同意</OPINION_INFO>
+            <CONFIRMOR>任羽汐</CONFIRMOR>
+            <CONFIRM_DATE>2025-05-27 08:51:32</CONFIRM_DATE>
             </BODY>
             </PACKET>
         """
@@ -55,14 +56,14 @@ class TowerTerminationConfirmOT(unittest.TestCase):
                           xmlns:web="http://webservice.service.sys.org/">
            <soapenv:Header/>
            <soapenv:Body>
-              <web:TowerTerminationConfirmOT>
+              <web:DemandChangeConfirmAfterRent>
                 <encReqXml>{request_xml}</encReqXml>
-              </web:TowerTerminationConfirmOT>
+              </web:DemandChangeConfirmAfterRent>
            </soapenv:Body>
         </soapenv:Envelope>
         """
 
-    def test_towerTerminationConfirmOT_LT(self):
+    def test_demandChangeConfirmAfterRent_LT(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -134,7 +135,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackToken(self):
+    def test_demandChangeConfirmAfterRent_lackToken(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -193,7 +194,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackCustCompany(self):
+    def test_demandChangeConfirmAfterRent_lackCustCompany(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company="",
@@ -256,7 +257,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackServiceCode(self):
+    def test_demandChangeConfirmAfterRent_lackServiceCode(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -319,7 +320,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_lackRequestTime(self):
+    def test_demandChangeConfirmAfterRent_lackRequestTime(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -379,7 +380,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_errorToken(self):
+    def test_demandChangeConfirmAfterRent_errorToken(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
@@ -439,7 +440,7 @@ class TowerTerminationConfirmOT(unittest.TestCase):
         except ET.ParseError as e:
             self.fail(f"XML解析错误: {e}")
 
-    def test_towerTerminationConfirmOT_otherServiceCode(self):
+    def test_demandChangeConfirmAfterRent_otherServiceCode(self):
         """铁塔终止确认SOAP接口测试"""
         # 1. 准备测试数据
         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
