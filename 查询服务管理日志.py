@@ -33,7 +33,7 @@ class TestQryFlowLog(unittest.TestCase):
             # 'city': '',
             'requestId': '124415235235',
             'page': 1,
-            'size': 10
+            'size': 100
         }
         expected_status_code = 200
 
@@ -120,7 +120,7 @@ class TestQryFlowLog(unittest.TestCase):
             # 'city': '',
             'requestId': '124415235235',
             'page': 1,
-            'size': 10
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'【省份】','empty')
 
@@ -131,7 +131,7 @@ class TestQryFlowLog(unittest.TestCase):
             # 'city': '',
             'requestId': '',
             'page': 1,
-            'size': 10
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'【需求单号】','empty')
 
@@ -141,7 +141,7 @@ class TestQryFlowLog(unittest.TestCase):
             # 'city': '',
             'requestId': '124415235235',
             'page': '',
-            'size': 10
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'page','default')
 
@@ -156,7 +156,7 @@ class TestQryFlowLog(unittest.TestCase):
         self.postQryFlowLog_empty_pram(data,'size','default')
 
 
-    def test_postQryFlowLog_error_type_limit(self):
+    def test_postQryFlowLog_error_type_size(self):
         data = {
             'provinceCode': 110000,
             # 'city': '',
@@ -164,25 +164,25 @@ class TestQryFlowLog(unittest.TestCase):
             'page': 1,
             'size': -1
         }
-        self.postQryFlowLog_empty_pram(data,'limit','error')
+        self.postQryFlowLog_empty_pram(data,'size','error')
 
-    def test_postQryFlowLog_error_type_start(self):
+    def test_postQryFlowLog_error_type_page(self):
         data = {
             'provinceCode': 110000,
             # 'city': '',
             'requestId': '124415235235',
             'page': -1,
-            'size': 10
+            'size': 100
         }
-        self.postQryFlowLog_empty_pram(data,'start','error')
+        self.postQryFlowLog_empty_pram(data,'page','error')
 
     def test_postQryFlowLog_error_provincecode(self):
         data = {
             'provinceCode': 123123,
             # 'city': '',
             'requestId': '124415235235',
-            'page': -1,
-            'size': 10
+            'page': 1,
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'【省份】','prcode_error')
 
@@ -191,8 +191,8 @@ class TestQryFlowLog(unittest.TestCase):
             'provinceCode': 110000,
             # 'city': '',
             'requestId': '啊',
-            'page': -1,
-            'size': 10
+            'page': 1,
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'【需求单号】','requestid_error')
 
@@ -201,8 +201,8 @@ class TestQryFlowLog(unittest.TestCase):
             'provinceCode': 110000,
             # 'city': '',
             'requestId': 'asdasd',
-            'page': -1,
-            'size': 10
+            'page': 1,
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'【需求单号】','requestid_error')
 
@@ -211,8 +211,8 @@ class TestQryFlowLog(unittest.TestCase):
             'provinceCode': 110000,
             # 'city': '',
             'requestId': '%',
-            'page': -1,
-            'size': 10
+            'page': 1,
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'【需求单号】','requestid_error')
 
@@ -221,8 +221,8 @@ class TestQryFlowLog(unittest.TestCase):
             'provinceCode': 110000,
             # 'city': '',
             'requestId': '123451234512345123451',
-            'page': -1,
-            'size': 10
+            'page': 1,
+            'size': 100
         }
         self.postQryFlowLog_empty_pram(data,'【需求单号】','len_error')
 
