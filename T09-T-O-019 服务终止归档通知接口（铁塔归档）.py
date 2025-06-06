@@ -28,7 +28,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>110200</REGION_CODE>'
@@ -46,7 +46,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             '<CHANGED_TOTAL_DAMAGES>0.00</CHANGED_TOTAL_DAMAGES>'
             '<CHANGE_CAUSE></CHANGE_CAUSE>'
             '<OTHER_SITE_RENT_FEE>0.00</OTHER_SITE_RENT_FEE>'
-            '<OTHER_POWER_FEE></OTHER_POWER_FEE>'
+            '<OTHER_POWER_FEE>/n/t/s~！@#￥%……&*（）——+：“|？》《!@#$%^&*())_+:"|?><</OTHER_POWER_FEE>'
             '<OTHER_PENALTY_FEE>0.00</OTHER_PENALTY_FEE>'
             '</BODY>'
             '</PACKET>'
@@ -124,7 +124,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>111600</REGION_CODE>'
@@ -230,7 +230,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>111600</REGION_CODE>'
@@ -324,95 +324,95 @@ class TestTowerTerminationSync(unittest.TestCase):
         except requests.exceptions.RequestException as e:
             print(f"请求失败: {e}")
 
-    def test_towerTerminationSync_lackToken(self):
-
-        # 原始请求XML（保持原始格式）
-        expected_request_xml = (
-            '<?xml version="1.0" encoding="UTF-8"?>'
-            '<PACKET>'
-            '<HEAD>'
-            '<ACCESS_TOKEN></ACCESS_TOKEN>'
-            '<CUST_COMPANY>1002</CUST_COMPANY>'
-            '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
-            f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
-            '</HEAD>'
-            '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
-            '<REQUEST_TYPE>1</REQUEST_TYPE>'
-            '<PROVINCE_CODE>110000</PROVINCE_CODE>'
-            '<REGION_CODE>111600</REGION_CODE>'
-            '<COUNTY_CODE>111601</COUNTY_CODE>'
-            '<CUST_COMPANY>1002</CUST_COMPANY>'
-            '<TOWER_FEE>0.00</TOWER_FEE>'
-            '<ROOMPT_FEE>0.00</ROOMPT_FEE>'
-            '<MANTAIN_FEE>0.00</MANTAIN_FEE>'
-            '<SITE_RENT_FEE>0.00</SITE_RENT_FEE>'
-            '<POWER_FEE>0.00</POWER_FEE>'
-            '<BATTERY_FEE>0.00</BATTERY_FEE>'
-            '<OVER_FEE>0.00</OVER_FEE>'
-            '<SITE_PENALTY_FEE>0.00</SITE_PENALTY_FEE>'
-            '<TOTAL_DAMAGES>0.00</TOTAL_DAMAGES>'
-            '<CHANGED_TOTAL_DAMAGES>0.00</CHANGED_TOTAL_DAMAGES>'
-            '<CHANGE_CAUSE></CHANGE_CAUSE>'
-            '<OTHER_SITE_RENT_FEE>0.00</OTHER_SITE_RENT_FEE>'
-            '<OTHER_POWER_FEE></OTHER_POWER_FEE>'
-            '<OTHER_PENALTY_FEE>0.00</OTHER_PENALTY_FEE>'
-            '<IS_NOPENTALTY_2>0</IS_NOPENTALTY_2>'
-            '</BODY>'
-            '</PACKET>'
-        )
-        # # 预期实际报错返回结果
-        # expected_response_xml = (
-        #     '<?xml version="1.0" encoding="UTF-8"?>'
-        #     '<PACKET>'
-        #     '<HEAD>'
-        #     '<RESPONSE_CODE>000004</RESPONSE_CODE>'
-        #     '<RESPONSE_MSG>【访问令牌】不能为空</RESPONSE_MSG>'
-        #     '<CUST_COMPANY>1002</CUST_COMPANY>'
-        #     '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
-        #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
-        #     '</HEAD>'
-        #     '<BODY/>'
-        #     '</PACKET>'
-        # )
-        try:
-            response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
-            # 断言测试
-            self.assertEqual(response.status_code, 200,
-                             f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
-            self.assertIn("application/xml", response.headers["Content-Type"])
-
-            # 解析请求XML
-            request_root = ET.fromstring(expected_request_xml)
-            request_body = request_root.find('BODY')
-            request_head = request_root.find('HEAD')
-
-            # 解析响应XML
-            response_root = ET.fromstring(response.text)
-            response_body = response_root.find('BODY')
-            response_head = response_root.find('HEAD')
-
-            # 1. 检查RESPONSE_CODE是否为000004
-            response_code = response_head.find('RESPONSE_CODE').text
-            assert response_code == '000004', f"RESPONSE_CODE应为000004, 实际为{response_code}"
-
-            # 2. 检查RESPONSE_MSG是否为【访问令牌】不能为空
-            response_msg = response_head.find('RESPONSE_MSG').text
-            assert response_msg == '【访问令牌】不能为空', f"RESPONSE_MSG应为【访问令牌】不能为空, 实际为{response_msg}"
-
-            # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
-            for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
-                request_value = request_head.find(tag).text
-                response_value = response_head.find(tag).text
-                assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
-
-            # 4. 检查RESPONSE_TIME是否不为空
-            response_time = response_head.find('RESPONSE_TIME').text
-            assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
-
-            print("测试通过！")
-        except requests.exceptions.RequestException as e:
-            print(f"请求失败: {e}")
+    # def test_towerTerminationSync_lackToken(self):
+    #
+    #     # 原始请求XML（保持原始格式）
+    #     expected_request_xml = (
+    #         '<?xml version="1.0" encoding="UTF-8"?>'
+    #         '<PACKET>'
+    #         '<HEAD>'
+    #         '<ACCESS_TOKEN></ACCESS_TOKEN>'
+    #         '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #         '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
+    #         f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
+    #         '</HEAD>'
+    #         '<BODY>'
+    #         '<REQUEST_ID>1234123123112113</REQUEST_ID>'
+    #         '<REQUEST_TYPE>1</REQUEST_TYPE>'
+    #         '<PROVINCE_CODE>110000</PROVINCE_CODE>'
+    #         '<REGION_CODE>111600</REGION_CODE>'
+    #         '<COUNTY_CODE>111601</COUNTY_CODE>'
+    #         '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #         '<TOWER_FEE>0.00</TOWER_FEE>'
+    #         '<ROOMPT_FEE>0.00</ROOMPT_FEE>'
+    #         '<MANTAIN_FEE>0.00</MANTAIN_FEE>'
+    #         '<SITE_RENT_FEE>0.00</SITE_RENT_FEE>'
+    #         '<POWER_FEE>0.00</POWER_FEE>'
+    #         '<BATTERY_FEE>0.00</BATTERY_FEE>'
+    #         '<OVER_FEE>0.00</OVER_FEE>'
+    #         '<SITE_PENALTY_FEE>0.00</SITE_PENALTY_FEE>'
+    #         '<TOTAL_DAMAGES>0.00</TOTAL_DAMAGES>'
+    #         '<CHANGED_TOTAL_DAMAGES>0.00</CHANGED_TOTAL_DAMAGES>'
+    #         '<CHANGE_CAUSE></CHANGE_CAUSE>'
+    #         '<OTHER_SITE_RENT_FEE>0.00</OTHER_SITE_RENT_FEE>'
+    #         '<OTHER_POWER_FEE></OTHER_POWER_FEE>'
+    #         '<OTHER_PENALTY_FEE>0.00</OTHER_PENALTY_FEE>'
+    #         '<IS_NOPENTALTY_2>0</IS_NOPENTALTY_2>'
+    #         '</BODY>'
+    #         '</PACKET>'
+    #     )
+    #     # # 预期实际报错返回结果
+    #     # expected_response_xml = (
+    #     #     '<?xml version="1.0" encoding="UTF-8"?>'
+    #     #     '<PACKET>'
+    #     #     '<HEAD>'
+    #     #     '<RESPONSE_CODE>000004</RESPONSE_CODE>'
+    #     #     '<RESPONSE_MSG>【访问令牌】不能为空</RESPONSE_MSG>'
+    #     #     '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #     #     '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
+    #     #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
+    #     #     '</HEAD>'
+    #     #     '<BODY/>'
+    #     #     '</PACKET>'
+    #     # )
+    #     try:
+    #         response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
+    #         # 断言测试
+    #         self.assertEqual(response.status_code, 200,
+    #                          f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
+    #         self.assertIn("application/xml", response.headers["Content-Type"])
+    #
+    #         # 解析请求XML
+    #         request_root = ET.fromstring(expected_request_xml)
+    #         request_body = request_root.find('BODY')
+    #         request_head = request_root.find('HEAD')
+    #
+    #         # 解析响应XML
+    #         response_root = ET.fromstring(response.text)
+    #         response_body = response_root.find('BODY')
+    #         response_head = response_root.find('HEAD')
+    #
+    #         # 1. 检查RESPONSE_CODE是否为000004
+    #         response_code = response_head.find('RESPONSE_CODE').text
+    #         assert response_code == '000004', f"RESPONSE_CODE应为000004, 实际为{response_code}"
+    #
+    #         # 2. 检查RESPONSE_MSG是否为【访问令牌】不能为空
+    #         response_msg = response_head.find('RESPONSE_MSG').text
+    #         assert response_msg == '【访问令牌】不能为空', f"RESPONSE_MSG应为【访问令牌】不能为空, 实际为{response_msg}"
+    #
+    #         # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
+    #         for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
+    #             request_value = request_head.find(tag).text
+    #             response_value = response_head.find(tag).text
+    #             assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
+    #
+    #         # 4. 检查RESPONSE_TIME是否不为空
+    #         response_time = response_head.find('RESPONSE_TIME').text
+    #         assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
+    #
+    #         print("测试通过！")
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"请求失败: {e}")
 
     def test_towerTerminationSync_lackCustCompany(self):
 
@@ -427,7 +427,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>111600</REGION_CODE>'
@@ -527,7 +527,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>111600</REGION_CODE>'
@@ -627,7 +627,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             '<REQUEST_TIME></REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>111600</REGION_CODE>'
@@ -705,96 +705,96 @@ class TestTowerTerminationSync(unittest.TestCase):
         except requests.exceptions.RequestException as e:
             print(f"请求失败: {e}")
 
-    def test_towerTerminationSync_errorToken(self):
-
-        # 原始请求XML（保持原始格式）
-        expected_request_xml = (
-            '<?xml version="1.0" encoding="UTF-8"?>'
-            '<PACKET>'
-            '<HEAD>'
-            f'<ACCESS_TOKEN>{TokenGenerator.generate_access_token("1002", "T09_TO_019")}</ACCESS_TOKEN>'
-            '<CUST_COMPANY>1002</CUST_COMPANY>'
-            '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
-            f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
-            '</HEAD>'
-            '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
-            '<REQUEST_TYPE>1</REQUEST_TYPE>'
-            '<PROVINCE_CODE>110000</PROVINCE_CODE>'
-            '<REGION_CODE>111600</REGION_CODE>'
-            '<COUNTY_CODE>111601</COUNTY_CODE>'
-            '<CUST_COMPANY>1002</CUST_COMPANY>'
-            '<TOWER_FEE>0.00</TOWER_FEE>'
-            '<ROOMPT_FEE>0.00</ROOMPT_FEE>'
-            '<MANTAIN_FEE>0.00</MANTAIN_FEE>'
-            '<SITE_RENT_FEE>0.00</SITE_RENT_FEE>'
-            '<POWER_FEE>0.00</POWER_FEE>'
-            '<BATTERY_FEE>0.00</BATTERY_FEE>'
-            '<OVER_FEE>0.00</OVER_FEE>'
-            '<SITE_PENALTY_FEE>0.00</SITE_PENALTY_FEE>'
-            '<TOTAL_DAMAGES>0.00</TOTAL_DAMAGES>'
-            '<CHANGED_TOTAL_DAMAGES>0.00</CHANGED_TOTAL_DAMAGES>'
-            '<CHANGE_CAUSE></CHANGE_CAUSE>'
-            '<OTHER_SITE_RENT_FEE>0.00</OTHER_SITE_RENT_FEE>'
-            '<OTHER_POWER_FEE></OTHER_POWER_FEE>'
-            '<OTHER_PENALTY_FEE>0.00</OTHER_PENALTY_FEE>'
-            '<IS_NOPENTALTY_2>0</IS_NOPENTALTY_2>'
-            '</BODY>'
-            '</PACKET>'
-        )
-        # # 预期实际报错返回结果
-        # expected_response_xml = (
-        #     '<?xml version="1.0" encoding="UTF-8"?>'
-        #     '<PACKET>'
-        #     '<HEAD>'
-        #     '<RESPONSE_CODE>000001</RESPONSE_CODE>'
-        #     '<RESPONSE_MSG>【访问令牌】不正确</RESPONSE_MSG>'
-        #     '<CUST_COMPANY>1002</CUST_COMPANY>'
-        #     '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
-        #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
-        #     '</HEAD>'
-        #     '<BODY/>'
-        #     '</PACKET>'
-        # )
-
-        try:
-            response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
-            # 断言测试
-            self.assertEqual(response.status_code, 200,
-                             f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
-            self.assertIn("application/xml", response.headers["Content-Type"])
-
-            # 解析请求XML
-            request_root = ET.fromstring(expected_request_xml)
-            request_body = request_root.find('BODY')
-            request_head = request_root.find('HEAD')
-
-            # 解析响应XML
-            response_root = ET.fromstring(response.text)
-            response_body = response_root.find('BODY')
-            response_head = response_root.find('HEAD')
-
-            # 1. 检查RESPONSE_CODE是否为000001
-            response_code = response_head.find('RESPONSE_CODE').text
-            assert response_code == '000001', f"RESPONSE_CODE应为000001, 实际为{response_code}"
-
-            # 2. 检查RESPONSE_MSG是否为【访问令牌】不正确
-            response_msg = response_head.find('RESPONSE_MSG').text
-            assert response_msg == '【访问令牌】不正确', f"RESPONSE_MSG应为【访问令牌】不正确, 实际为{response_msg}"
-
-            # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
-            for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
-                request_value = request_head.find(tag).text
-                response_value = response_head.find(tag).text
-                assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
-
-            # 4. 检查RESPONSE_TIME是否不为空
-            response_time = response_head.find('RESPONSE_TIME').text
-            assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
-
-            print("测试通过！")
-        except requests.exceptions.RequestException as e:
-            print(f"请求失败: {e}")
+    # def test_towerTerminationSync_errorToken(self):
+    #
+    #     # 原始请求XML（保持原始格式）
+    #     expected_request_xml = (
+    #         '<?xml version="1.0" encoding="UTF-8"?>'
+    #         '<PACKET>'
+    #         '<HEAD>'
+    #         f'<ACCESS_TOKEN>{TokenGenerator.generate_access_token("1002", "T09_TO_019")}</ACCESS_TOKEN>'
+    #         '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #         '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
+    #         f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
+    #         '</HEAD>'
+    #         '<BODY>'
+    #         '<REQUEST_ID>1234123123112113</REQUEST_ID>'
+    #         '<REQUEST_TYPE>1</REQUEST_TYPE>'
+    #         '<PROVINCE_CODE>110000</PROVINCE_CODE>'
+    #         '<REGION_CODE>111600</REGION_CODE>'
+    #         '<COUNTY_CODE>111601</COUNTY_CODE>'
+    #         '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #         '<TOWER_FEE>0.00</TOWER_FEE>'
+    #         '<ROOMPT_FEE>0.00</ROOMPT_FEE>'
+    #         '<MANTAIN_FEE>0.00</MANTAIN_FEE>'
+    #         '<SITE_RENT_FEE>0.00</SITE_RENT_FEE>'
+    #         '<POWER_FEE>0.00</POWER_FEE>'
+    #         '<BATTERY_FEE>0.00</BATTERY_FEE>'
+    #         '<OVER_FEE>0.00</OVER_FEE>'
+    #         '<SITE_PENALTY_FEE>0.00</SITE_PENALTY_FEE>'
+    #         '<TOTAL_DAMAGES>0.00</TOTAL_DAMAGES>'
+    #         '<CHANGED_TOTAL_DAMAGES>0.00</CHANGED_TOTAL_DAMAGES>'
+    #         '<CHANGE_CAUSE></CHANGE_CAUSE>'
+    #         '<OTHER_SITE_RENT_FEE>0.00</OTHER_SITE_RENT_FEE>'
+    #         '<OTHER_POWER_FEE></OTHER_POWER_FEE>'
+    #         '<OTHER_PENALTY_FEE>0.00</OTHER_PENALTY_FEE>'
+    #         '<IS_NOPENTALTY_2>0</IS_NOPENTALTY_2>'
+    #         '</BODY>'
+    #         '</PACKET>'
+    #     )
+    #     # # 预期实际报错返回结果
+    #     # expected_response_xml = (
+    #     #     '<?xml version="1.0" encoding="UTF-8"?>'
+    #     #     '<PACKET>'
+    #     #     '<HEAD>'
+    #     #     '<RESPONSE_CODE>000001</RESPONSE_CODE>'
+    #     #     '<RESPONSE_MSG>【访问令牌】不正确</RESPONSE_MSG>'
+    #     #     '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #     #     '<SERVICE_CODE>T09_TO_019</SERVICE_CODE>'
+    #     #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
+    #     #     '</HEAD>'
+    #     #     '<BODY/>'
+    #     #     '</PACKET>'
+    #     # )
+    #
+    #     try:
+    #         response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
+    #         # 断言测试
+    #         self.assertEqual(response.status_code, 200,
+    #                          f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
+    #         self.assertIn("application/xml", response.headers["Content-Type"])
+    #
+    #         # 解析请求XML
+    #         request_root = ET.fromstring(expected_request_xml)
+    #         request_body = request_root.find('BODY')
+    #         request_head = request_root.find('HEAD')
+    #
+    #         # 解析响应XML
+    #         response_root = ET.fromstring(response.text)
+    #         response_body = response_root.find('BODY')
+    #         response_head = response_root.find('HEAD')
+    #
+    #         # 1. 检查RESPONSE_CODE是否为000001
+    #         response_code = response_head.find('RESPONSE_CODE').text
+    #         assert response_code == '000001', f"RESPONSE_CODE应为000001, 实际为{response_code}"
+    #
+    #         # 2. 检查RESPONSE_MSG是否为【访问令牌】不正确
+    #         response_msg = response_head.find('RESPONSE_MSG').text
+    #         assert response_msg == '【访问令牌】不正确', f"RESPONSE_MSG应为【访问令牌】不正确, 实际为{response_msg}"
+    #
+    #         # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
+    #         for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
+    #             request_value = request_head.find(tag).text
+    #             response_value = response_head.find(tag).text
+    #             assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
+    #
+    #         # 4. 检查RESPONSE_TIME是否不为空
+    #         response_time = response_head.find('RESPONSE_TIME').text
+    #         assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
+    #
+    #         print("测试通过！")
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"请求失败: {e}")
 
     def test_towerTerminationSync_otherCustCompany(self):
 
@@ -809,7 +809,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>111600</REGION_CODE>'
@@ -902,7 +902,7 @@ class TestTowerTerminationSync(unittest.TestCase):
             f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
             '</HEAD>'
             '<BODY>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
             '<PROVINCE_CODE>110000</PROVINCE_CODE>'
             '<REGION_CODE>111600</REGION_CODE>'

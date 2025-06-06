@@ -39,10 +39,10 @@ class TowerTerminationConfirmOT(unittest.TestCase):
             <PROVINCE_CODE>110000</PROVINCE_CODE>
             <REGION_CODE>110200</REGION_CODE>
             <COUNTY_CODE>110201</COUNTY_CODE>
-            <REQUEST_ID>待确认</REQUEST_ID>
+            <REQUEST_ID>1234123123112113</REQUEST_ID>
             <RESULT>1</RESULT>
             <OPINION_INFO></OPINION_INFO>
-            <CONFIRMOR>李江元</CONFIRMOR>
+            <CONFIRMOR>/n/t/s~！@#￥%……&*（）——+：“|？》《!@#$%^&*())_+:"|?><</CONFIRMOR>
             <CONFIRM_DATE>2025-05-27 13:56:08</CONFIRM_DATE>
             </BODY>
             </PACKET>

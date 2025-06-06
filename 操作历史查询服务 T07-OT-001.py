@@ -39,10 +39,10 @@ class OperateHistoryQryOT(unittest.TestCase):
             <CUSTOMER>1002</CUSTOMER>
             <PROVINCE_CODE>110000</PROVINCE_CODE>
             <CITY_CODE>110200</CITY_CODE>
-            <REQUEST_ID>待确认</REQUEST_ID>
+            <REQUEST_ID>1234123123112113</REQUEST_ID>
             <RESULT>1</RESULT>
             <PROCESS_TYPE></PROCESS_TYPE>
-            <PROCESS_TYPE>李江元</PROCESS_TYPE>
+            <PROCESS_TYPE>/n/t/s~！@#￥%……&*（）——+：“|？》《!@#$%^&*())_+:"|?><</PROCESS_TYPE>
             <REQUEST_TIME>2025-05-27 13:56:08</REQUEST_TIME>
             </BODY>
             </PACKET>

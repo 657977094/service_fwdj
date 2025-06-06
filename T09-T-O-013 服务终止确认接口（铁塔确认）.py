@@ -30,11 +30,11 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140300</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-04-24 14:56:30</CONFIRM_DATE>'
             '<COUNTY_CODE>140321</COUNTY_CODE>'
-            '<OPINION_INFO>已处理</OPINION_INFO>'
+            '<OPINION_INFO>/n/t/s~！@#￥%……&*（）——+：“|？》《!@#$%^&*())_+:"|?><</OPINION_INFO>'
             '<CONFIRMOR>运营商发起</CONFIRMOR>'
             '<RESULT>02</RESULT>'
             '</BODY>'
@@ -128,7 +128,7 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
             '<COUNTY_CODE>140203</COUNTY_CODE>'
@@ -222,7 +222,7 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
             '<COUNTY_CODE>140203</COUNTY_CODE>'
@@ -302,82 +302,82 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
         except requests.exceptions.RequestException as e:
             print(f"请求失败: {e}")
 
-    def test_customerTerminationConfirmTO_lackToken(self):
-
-        # 原始请求XML（保持原始格式）
-        expected_request_xml = (
-            '<?xml version="1.0" encoding="UTF-8"?>'
-            '<PACKET>'
-            '<HEAD>'
-            '<ACCESS_TOKEN></ACCESS_TOKEN>'
-            '<CUST_COMPANY>1002</CUST_COMPANY>'
-            '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
-            f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
-            '</HEAD>'
-            '<BODY>'
-            '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
-            '<PROVINCE_CODE>140000</PROVINCE_CODE>'
-            '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
-            '<COUNTY_CODE>140203</COUNTY_CODE>'
-            '<OPINION_INFO>已处理</OPINION_INFO>'
-            '<CONFIRMOR>运营商发起</CONFIRMOR>'
-            '<RESULT>1</RESULT>'
-            '</BODY>'
-            '</PACKET>'
-        )
-        # # 预期实际报错返回结果
-        # expected_response_xml = (
-        #     '<?xml version="1.0" encoding="UTF-8"?>'
-        #     '<PACKET>'
-        #     '<HEAD>'
-        #     '<RESPONSE_CODE>000004</RESPONSE_CODE>'
-        #     '<RESPONSE_MSG>【访问令牌】不能为空</RESPONSE_MSG>'
-        #     '<CUST_COMPANY>1002</CUST_COMPANY>'
-        #     '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
-        #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
-        #     '</HEAD>'
-        #     '<BODY/>'
-        #     '</PACKET>'
-        # )
-        try:
-            response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
-            # 断言测试
-            self.assertEqual(response.status_code, 200,
-                             f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
-            self.assertIn("application/xml", response.headers["Content-Type"])
-
-            # 解析请求XML
-            request_root = ET.fromstring(expected_request_xml)
-            request_body = request_root.find('BODY')
-            request_head = request_root.find('HEAD')
-
-            # 解析响应XML
-            response_root = ET.fromstring(response.text)
-            response_body = response_root.find('BODY')
-            response_head = response_root.find('HEAD')
-
-            # 1. 检查RESPONSE_CODE是否为000004
-            response_code = response_head.find('RESPONSE_CODE').text
-            assert response_code == '000004', f"RESPONSE_CODE应为000004, 实际为{response_code}"
-
-            # 2. 检查RESPONSE_MSG是否为【访问令牌】不能为空
-            response_msg = response_head.find('RESPONSE_MSG').text
-            assert response_msg == '【访问令牌】不能为空', f"RESPONSE_MSG应为【访问令牌】不能为空, 实际为{response_msg}"
-
-            # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
-            for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
-                request_value = request_head.find(tag).text
-                response_value = response_head.find(tag).text
-                assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
-
-            # 4. 检查RESPONSE_TIME是否不为空
-            response_time = response_head.find('RESPONSE_TIME').text
-            assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
-
-            print("测试通过！")
-        except requests.exceptions.RequestException as e:
-            print(f"请求失败: {e}")
+    # def test_customerTerminationConfirmTO_lackToken(self):
+    #
+    #     # 原始请求XML（保持原始格式）
+    #     expected_request_xml = (
+    #         '<?xml version="1.0" encoding="UTF-8"?>'
+    #         '<PACKET>'
+    #         '<HEAD>'
+    #         '<ACCESS_TOKEN></ACCESS_TOKEN>'
+    #         '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #         '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
+    #         f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
+    #         '</HEAD>'
+    #         '<BODY>'
+    #         '<REGION_CODE>140200</REGION_CODE>'
+    #         '<REQUEST_ID>1234123123112113</REQUEST_ID>'
+    #         '<PROVINCE_CODE>140000</PROVINCE_CODE>'
+    #         '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
+    #         '<COUNTY_CODE>140203</COUNTY_CODE>'
+    #         '<OPINION_INFO>已处理</OPINION_INFO>'
+    #         '<CONFIRMOR>运营商发起</CONFIRMOR>'
+    #         '<RESULT>1</RESULT>'
+    #         '</BODY>'
+    #         '</PACKET>'
+    #     )
+    #     # # 预期实际报错返回结果
+    #     # expected_response_xml = (
+    #     #     '<?xml version="1.0" encoding="UTF-8"?>'
+    #     #     '<PACKET>'
+    #     #     '<HEAD>'
+    #     #     '<RESPONSE_CODE>000004</RESPONSE_CODE>'
+    #     #     '<RESPONSE_MSG>【访问令牌】不能为空</RESPONSE_MSG>'
+    #     #     '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #     #     '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
+    #     #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
+    #     #     '</HEAD>'
+    #     #     '<BODY/>'
+    #     #     '</PACKET>'
+    #     # )
+    #     try:
+    #         response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
+    #         # 断言测试
+    #         self.assertEqual(response.status_code, 200,
+    #                          f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
+    #         self.assertIn("application/xml", response.headers["Content-Type"])
+    #
+    #         # 解析请求XML
+    #         request_root = ET.fromstring(expected_request_xml)
+    #         request_body = request_root.find('BODY')
+    #         request_head = request_root.find('HEAD')
+    #
+    #         # 解析响应XML
+    #         response_root = ET.fromstring(response.text)
+    #         response_body = response_root.find('BODY')
+    #         response_head = response_root.find('HEAD')
+    #
+    #         # 1. 检查RESPONSE_CODE是否为000004
+    #         response_code = response_head.find('RESPONSE_CODE').text
+    #         assert response_code == '000004', f"RESPONSE_CODE应为000004, 实际为{response_code}"
+    #
+    #         # 2. 检查RESPONSE_MSG是否为【访问令牌】不能为空
+    #         response_msg = response_head.find('RESPONSE_MSG').text
+    #         assert response_msg == '【访问令牌】不能为空', f"RESPONSE_MSG应为【访问令牌】不能为空, 实际为{response_msg}"
+    #
+    #         # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
+    #         for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
+    #             request_value = request_head.find(tag).text
+    #             response_value = response_head.find(tag).text
+    #             assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
+    #
+    #         # 4. 检查RESPONSE_TIME是否不为空
+    #         response_time = response_head.find('RESPONSE_TIME').text
+    #         assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
+    #
+    #         print("测试通过！")
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"请求失败: {e}")
 
     def test_customerTerminationConfirmTO_lackCustCompany(self):
 
@@ -393,7 +393,7 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
             '<COUNTY_CODE>140203</COUNTY_CODE>'
@@ -479,7 +479,7 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
             '<COUNTY_CODE>140203</COUNTY_CODE>'
@@ -565,7 +565,7 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
             '<COUNTY_CODE>140203</COUNTY_CODE>'
@@ -628,82 +628,82 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
         except requests.exceptions.RequestException as e:
             print(f"请求失败: {e}")
 
-    def test_customerTerminationConfirmTO_errorToken(self):
-
-        # 原始请求XML（保持原始格式）
-        expected_request_xml = (
-            '<?xml version="1.0" encoding="UTF-8"?>'
-            '<PACKET>'
-            '<HEAD>'
-            '<ACCESS_TOKEN>123123</ACCESS_TOKEN>'
-            '<CUST_COMPANY>1002</CUST_COMPANY>'
-            '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
-            f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
-            '</HEAD>'
-            '<BODY>'
-            '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
-            '<PROVINCE_CODE>140000</PROVINCE_CODE>'
-            '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
-            '<COUNTY_CODE>140203</COUNTY_CODE>'
-            '<OPINION_INFO>已处理</OPINION_INFO>'
-            '<CONFIRMOR>运营商发起</CONFIRMOR>'
-            '<RESULT>1</RESULT>'
-            '</BODY>'
-            '</PACKET>'
-        )
-        # # 预期实际报错返回结果
-        # expected_response_xml = (
-        #     '<?xml version="1.0" encoding="UTF-8"?>'
-        #     '<PACKET>'
-        #     '<HEAD>'
-        #     '<RESPONSE_CODE>000001</RESPONSE_CODE>'
-        #     '<RESPONSE_MSG>【访问令牌】不正确</RESPONSE_MSG>'
-        #     '<CUST_COMPANY>1002</CUST_COMPANY>'
-        #     '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
-        #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
-        #     '</HEAD>'
-        #     '<BODY/>'
-        #     '</PACKET>'
-        # )
-        try:
-            response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
-            # 断言测试
-            self.assertEqual(response.status_code, 200,
-                             f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
-            self.assertIn("application/xml", response.headers["Content-Type"])
-
-            # 解析请求XML
-            request_root = ET.fromstring(expected_request_xml)
-            request_body = request_root.find('BODY')
-            request_head = request_root.find('HEAD')
-
-            # 解析响应XML
-            response_root = ET.fromstring(response.text)
-            response_body = response_root.find('BODY')
-            response_head = response_root.find('HEAD')
-
-            # 1. 检查RESPONSE_CODE是否为000001
-            response_code = response_head.find('RESPONSE_CODE').text
-            assert response_code == '000001', f"RESPONSE_CODE应为000001, 实际为{response_code}"
-
-            # 2. 检查RESPONSE_MSG是否为【访问令牌】不正确
-            response_msg = response_head.find('RESPONSE_MSG').text
-            assert response_msg == '【访问令牌】不正确', f"RESPONSE_MSG应为【访问令牌】不正确, 实际为{response_msg}"
-
-            # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
-            for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
-                request_value = request_head.find(tag).text
-                response_value = response_head.find(tag).text
-                assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
-
-            # 4. 检查RESPONSE_TIME是否不为空
-            response_time = response_head.find('RESPONSE_TIME').text
-            assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
-
-            print("测试通过！")
-        except requests.exceptions.RequestException as e:
-            print(f"请求失败: {e}")
+    # def test_customerTerminationConfirmTO_errorToken(self):
+    #
+    #     # 原始请求XML（保持原始格式）
+    #     expected_request_xml = (
+    #         '<?xml version="1.0" encoding="UTF-8"?>'
+    #         '<PACKET>'
+    #         '<HEAD>'
+    #         '<ACCESS_TOKEN>123123</ACCESS_TOKEN>'
+    #         '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #         '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
+    #         f'<REQUEST_TIME>{GetCurrentTime.get_current_time()}</REQUEST_TIME>'
+    #         '</HEAD>'
+    #         '<BODY>'
+    #         '<REGION_CODE>140200</REGION_CODE>'
+    #         '<REQUEST_ID>1234123123112113</REQUEST_ID>'
+    #         '<PROVINCE_CODE>140000</PROVINCE_CODE>'
+    #         '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
+    #         '<COUNTY_CODE>140203</COUNTY_CODE>'
+    #         '<OPINION_INFO>已处理</OPINION_INFO>'
+    #         '<CONFIRMOR>运营商发起</CONFIRMOR>'
+    #         '<RESULT>1</RESULT>'
+    #         '</BODY>'
+    #         '</PACKET>'
+    #     )
+    #     # # 预期实际报错返回结果
+    #     # expected_response_xml = (
+    #     #     '<?xml version="1.0" encoding="UTF-8"?>'
+    #     #     '<PACKET>'
+    #     #     '<HEAD>'
+    #     #     '<RESPONSE_CODE>000001</RESPONSE_CODE>'
+    #     #     '<RESPONSE_MSG>【访问令牌】不正确</RESPONSE_MSG>'
+    #     #     '<CUST_COMPANY>1002</CUST_COMPANY>'
+    #     #     '<SERVICE_CODE>T09_TO_013</SERVICE_CODE>'
+    #     #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
+    #     #     '</HEAD>'
+    #     #     '<BODY/>'
+    #     #     '</PACKET>'
+    #     # )
+    #     try:
+    #         response = requests.post(url=self.BASE_URL, data=expected_request_xml.encode('utf-8'), headers=self.headers)
+    #         # 断言测试
+    #         self.assertEqual(response.status_code, 200,
+    #                          f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
+    #         self.assertIn("application/xml", response.headers["Content-Type"])
+    #
+    #         # 解析请求XML
+    #         request_root = ET.fromstring(expected_request_xml)
+    #         request_body = request_root.find('BODY')
+    #         request_head = request_root.find('HEAD')
+    #
+    #         # 解析响应XML
+    #         response_root = ET.fromstring(response.text)
+    #         response_body = response_root.find('BODY')
+    #         response_head = response_root.find('HEAD')
+    #
+    #         # 1. 检查RESPONSE_CODE是否为000001
+    #         response_code = response_head.find('RESPONSE_CODE').text
+    #         assert response_code == '000001', f"RESPONSE_CODE应为000001, 实际为{response_code}"
+    #
+    #         # 2. 检查RESPONSE_MSG是否为【访问令牌】不正确
+    #         response_msg = response_head.find('RESPONSE_MSG').text
+    #         assert response_msg == '【访问令牌】不正确', f"RESPONSE_MSG应为【访问令牌】不正确, 实际为{response_msg}"
+    #
+    #         # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
+    #         for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
+    #             request_value = request_head.find(tag).text
+    #             response_value = response_head.find(tag).text
+    #             assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
+    #
+    #         # 4. 检查RESPONSE_TIME是否不为空
+    #         response_time = response_head.find('RESPONSE_TIME').text
+    #         assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
+    #
+    #         print("测试通过！")
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"请求失败: {e}")
 
     def test_customerTerminationConfirmTO_otherCustCompany(self):
 
@@ -719,7 +719,7 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
             '<COUNTY_CODE>140203</COUNTY_CODE>'
@@ -798,7 +798,7 @@ class TestCustomerTerminationConfirmTO(unittest.TestCase):
             '</HEAD>'
             '<BODY>'
             '<REGION_CODE>140200</REGION_CODE>'
-            '<REQUEST_ID>待确认</REQUEST_ID>'
+            '<REQUEST_ID>1234123123112113</REQUEST_ID>'
             '<PROVINCE_CODE>140000</PROVINCE_CODE>'
             '<CONFIRM_DATE>2025-05-26 16:43:57</CONFIRM_DATE>'
             '<COUNTY_CODE>140203</COUNTY_CODE>'

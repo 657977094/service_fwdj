@@ -39,7 +39,7 @@ class DemandChangeApplyAfterRent(unittest.TestCase):
             <PROVINCE_CODE>110000</PROVINCE_CODE>
             <REGION_CODE>110200</REGION_CODE>
             <COUNTY_CODE>110201</COUNTY_CODE>
-            <REQUEST_ID>待确认</REQUEST_ID>
+            <REQUEST_ID>1234123123112113</REQUEST_ID>
             <APPLY_ID>BJ-W-2025051202233T</APPLY_ID>
             <REQUEST_TYPE>4</REQUEST_TYPE>
             <CUST_COMPANY>1002</CUST_COMPANY>
@@ -52,7 +52,7 @@ class DemandChangeApplyAfterRent(unittest.TestCase):
             <TRACE_REASON></TRACE_REASON>
             <CHANGE_FEE>652.97</CHANGE_FEE>
             <COMPONENT_ID>200132</COMPONENT_ID>
-            <OPERATOR>杨帆</OPERATOR>
+            <OPERATOR>/n/t/s~！@#￥%……&*（）——+：“|？》《!@#$%^&*())_+:"|?><</OPERATOR>
             <LINKTEL>13601174201</LINKTEL>
             <RESULT>1</RESULT>
             <OPINION_INFO></OPINION_INFO>

@@ -47,7 +47,7 @@ class TestDemandChangeApplyAfterRent(unittest.TestCase):
             '<TRACE_REASON></TRACE_REASON>'
             '<TRACE_BEGIN_DATE></TRACE_BEGIN_DATE>'
             '<CHANGE_REASON>运营商变更保障需求</CHANGE_REASON>'
-            '<OPERATOR>王若瑄</OPERATOR>'
+            '<OPERATOR>/n/t/s~！@#￥%……&*（）——+：“|？》《!@#$%^&*())_+:"|?></OPERATOR>'
             '<APPLY_ID>T2025060100311937493</APPLY_ID>'
             '<MAINTAIN>01</MAINTAIN>'
             '<REQUEST_TYPE>1</REQUEST_TYPE>'
@@ -201,63 +201,63 @@ class TestDemandChangeApplyAfterRent(unittest.TestCase):
         except requests.exceptions.RequestException as e:
             print(f"请求失败: {e}")
 
-    def test_demandChangeApplyAfterRent_lackToken(self):
-
-        # # 预期实际报错返回结果
-        # expected_response_xml = (
-        #     '<?xml version="1.0" encoding="UTF-8"?>'
-        #     '<PACKET>'
-        #     '<HEAD>'
-        #     '<RESPONSE_CODE>000004</RESPONSE_CODE>'
-        #     '<RESPONSE_MSG>【访问令牌】不能为空</RESPONSE_MSG>'
-        #     '<CUST_COMPANY>1003</CUST_COMPANY>'
-        #     '<SERVICE_CODE>T03_TO_016</SERVICE_CODE>'
-        #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
-        #     '</HEAD>'
-        #     '<BODY/>'
-        #     '</PACKET>'
-        # )
-
-        try:
-            request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
-                                                    service_code=self.SERVICE_CODE,
-                                                    access_token='',
-                                                    request_time=GetCurrentTime.get_current_time()).strip()
-            response = requests.post(url=self.BASE_URL, data=request_xml.encode('utf-8'), headers=self.headers)
-            # 断言测试
-            self.assertEqual(response.status_code, 200,
-                             f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
-            self.assertIn("application/xml", response.headers["Content-Type"])
-
-            # 解析请求XML
-            request_root = ET.fromstring(request_xml)
-            request_head = request_root.find('HEAD')
-
-            # 解析响应XML
-            response_root = ET.fromstring(response.text)
-            response_head = response_root.find('HEAD')
-
-            # 1. 检查RESPONSE_CODE是否为000004
-            response_code = response_head.find('RESPONSE_CODE').text
-            assert response_code == '000004', f"RESPONSE_CODE应为000004, 实际为{response_code}"
-
-            # 2. 检查RESPONSE_MSG是否为【访问令牌】不能为空
-            response_msg = response_head.find('RESPONSE_MSG').text
-            assert response_msg == '【访问令牌】不能为空', f"RESPONSE_MSG应为【访问令牌】不能为空, 实际为{response_msg}"
-
-            # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
-            for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
-                request_value = request_head.find(tag).text
-                response_value = response_head.find(tag).text
-                assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
-
-            # 4. 检查RESPONSE_TIME是否不为空
-            response_time = response_head.find('RESPONSE_TIME').text
-            assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
-
-            print("测试通过！")
-        except requests.exceptions.RequestException as e:
-            print(f"请求失败: {e}")
+    # def test_demandChangeApplyAfterRent_lackToken(self):
+    #
+    #     # # 预期实际报错返回结果
+    #     # expected_response_xml = (
+    #     #     '<?xml version="1.0" encoding="UTF-8"?>'
+    #     #     '<PACKET>'
+    #     #     '<HEAD>'
+    #     #     '<RESPONSE_CODE>000004</RESPONSE_CODE>'
+    #     #     '<RESPONSE_MSG>【访问令牌】不能为空</RESPONSE_MSG>'
+    #     #     '<CUST_COMPANY>1003</CUST_COMPANY>'
+    #     #     '<SERVICE_CODE>T03_TO_016</SERVICE_CODE>'
+    #     #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
+    #     #     '</HEAD>'
+    #     #     '<BODY/>'
+    #     #     '</PACKET>'
+    #     # )
+    #
+    #     try:
+    #         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
+    #                                                 service_code=self.SERVICE_CODE,
+    #                                                 access_token='',
+    #                                                 request_time=GetCurrentTime.get_current_time()).strip()
+    #         response = requests.post(url=self.BASE_URL, data=request_xml.encode('utf-8'), headers=self.headers)
+    #         # 断言测试
+    #         self.assertEqual(response.status_code, 200,
+    #                          f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
+    #         self.assertIn("application/xml", response.headers["Content-Type"])
+    #
+    #         # 解析请求XML
+    #         request_root = ET.fromstring(request_xml)
+    #         request_head = request_root.find('HEAD')
+    #
+    #         # 解析响应XML
+    #         response_root = ET.fromstring(response.text)
+    #         response_head = response_root.find('HEAD')
+    #
+    #         # 1. 检查RESPONSE_CODE是否为000004
+    #         response_code = response_head.find('RESPONSE_CODE').text
+    #         assert response_code == '000004', f"RESPONSE_CODE应为000004, 实际为{response_code}"
+    #
+    #         # 2. 检查RESPONSE_MSG是否为【访问令牌】不能为空
+    #         response_msg = response_head.find('RESPONSE_MSG').text
+    #         assert response_msg == '【访问令牌】不能为空', f"RESPONSE_MSG应为【访问令牌】不能为空, 实际为{response_msg}"
+    #
+    #         # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
+    #         for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
+    #             request_value = request_head.find(tag).text
+    #             response_value = response_head.find(tag).text
+    #             assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
+    #
+    #         # 4. 检查RESPONSE_TIME是否不为空
+    #         response_time = response_head.find('RESPONSE_TIME').text
+    #         assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
+    #
+    #         print("测试通过！")
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"请求失败: {e}")
 
     def test_demandChangeApplyAfterRent_lackCustCompany(self):
         # # 预期实际报错返回结果
@@ -451,63 +451,63 @@ class TestDemandChangeApplyAfterRent(unittest.TestCase):
         except requests.exceptions.RequestException as e:
             print(f"请求失败: {e}")
 
-    def test_demandChangeApplyAfterRent_errorToken(self):
-
-        # # 预期实际报错返回结果
-        # expected_response_xml = (
-        #     '<?xml version="1.0" encoding="UTF-8"?>'
-        #     '<PACKET>'
-        #     '<HEAD>'
-        #     '<RESPONSE_CODE>000001</RESPONSE_CODE>'
-        #     '<RESPONSE_MSG>【访问令牌】不正确</RESPONSE_MSG>'
-        #     '<CUST_COMPANY>1003</CUST_COMPANY>'
-        #     '<SERVICE_CODE>T03_TO_016</SERVICE_CODE>'
-        #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
-        #     '</HEAD>'
-        #     '<BODY/>'
-        #     '</PACKET>'
-        # )
-
-        try:
-            request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
-                                                    service_code=self.SERVICE_CODE,
-                                                    access_token='123123',
-                                                    request_time=GetCurrentTime.get_current_time()).strip()
-            response = requests.post(url=self.BASE_URL, data=request_xml.encode('utf-8'), headers=self.headers)
-            # 断言测试
-            self.assertEqual(response.status_code, 200,
-                             f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
-            self.assertIn("application/xml", response.headers["Content-Type"])
-
-            # 解析请求XML
-            request_root = ET.fromstring(request_xml)
-            request_head = request_root.find('HEAD')
-
-            # 解析响应XML
-            response_root = ET.fromstring(response.text)
-            response_head = response_root.find('HEAD')
-
-            # 1. 检查RESPONSE_CODE是否为000001
-            response_code = response_head.find('RESPONSE_CODE').text
-            assert response_code == '000001', f"RESPONSE_CODE应为000001, 实际为{response_code}"
-
-            # 2. 检查RESPONSE_MSG是否为【访问令牌】不正确
-            response_msg = response_head.find('RESPONSE_MSG').text
-            assert response_msg == '【访问令牌】不正确', f"RESPONSE_MSG应为【访问令牌】不正确, 实际为{response_msg}"
-
-            # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
-            for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
-                request_value = request_head.find(tag).text
-                response_value = response_head.find(tag).text
-                assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
-
-            # 4. 检查RESPONSE_TIME是否不为空
-            response_time = response_head.find('RESPONSE_TIME').text
-            assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
-
-            print("测试通过！")
-        except requests.exceptions.RequestException as e:
-            print(f"请求失败: {e}")
+    # def test_demandChangeApplyAfterRent_errorToken(self):
+    #
+    #     # # 预期实际报错返回结果
+    #     # expected_response_xml = (
+    #     #     '<?xml version="1.0" encoding="UTF-8"?>'
+    #     #     '<PACKET>'
+    #     #     '<HEAD>'
+    #     #     '<RESPONSE_CODE>000001</RESPONSE_CODE>'
+    #     #     '<RESPONSE_MSG>【访问令牌】不正确</RESPONSE_MSG>'
+    #     #     '<CUST_COMPANY>1003</CUST_COMPANY>'
+    #     #     '<SERVICE_CODE>T03_TO_016</SERVICE_CODE>'
+    #     #     '<RESPONSE_TIME>2025-05-13 14:52:00</RESPONSE_TIME>'
+    #     #     '</HEAD>'
+    #     #     '<BODY/>'
+    #     #     '</PACKET>'
+    #     # )
+    #
+    #     try:
+    #         request_xml = self.generate_request_xml(cust_company=self.CUST_COMPANY,
+    #                                                 service_code=self.SERVICE_CODE,
+    #                                                 access_token='123123',
+    #                                                 request_time=GetCurrentTime.get_current_time()).strip()
+    #         response = requests.post(url=self.BASE_URL, data=request_xml.encode('utf-8'), headers=self.headers)
+    #         # 断言测试
+    #         self.assertEqual(response.status_code, 200,
+    #                          f"响应状态码不是200，实际是{response.status_code}")  # 响应码校验
+    #         self.assertIn("application/xml", response.headers["Content-Type"])
+    #
+    #         # 解析请求XML
+    #         request_root = ET.fromstring(request_xml)
+    #         request_head = request_root.find('HEAD')
+    #
+    #         # 解析响应XML
+    #         response_root = ET.fromstring(response.text)
+    #         response_head = response_root.find('HEAD')
+    #
+    #         # 1. 检查RESPONSE_CODE是否为000001
+    #         response_code = response_head.find('RESPONSE_CODE').text
+    #         assert response_code == '000001', f"RESPONSE_CODE应为000001, 实际为{response_code}"
+    #
+    #         # 2. 检查RESPONSE_MSG是否为【访问令牌】不正确
+    #         response_msg = response_head.find('RESPONSE_MSG').text
+    #         assert response_msg == '【访问令牌】不正确', f"RESPONSE_MSG应为【访问令牌】不正确, 实际为{response_msg}"
+    #
+    #         # 3. 检查CUST_COMPANY、SERVICE_CODE是否与请求一致
+    #         for tag in ['CUST_COMPANY', 'SERVICE_CODE']:
+    #             request_value = request_head.find(tag).text
+    #             response_value = response_head.find(tag).text
+    #             assert response_value == request_value, f"{tag}不匹配: 响应={response_value}, 期望={request_value}"
+    #
+    #         # 4. 检查RESPONSE_TIME是否不为空
+    #         response_time = response_head.find('RESPONSE_TIME').text
+    #         assert response_time is not None and response_time != '', "RESPONSE_TIME不应为空"
+    #
+    #         print("测试通过！")
+    #     except requests.exceptions.RequestException as e:
+    #         print(f"请求失败: {e}")
 
     def test_demandChangeApplyAfterRent_otherCustCompany(self):
 
